@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<!-- Insert this script at the bottom of the HTML, but before you use any Firebase services -->
+<script type="module">
+   // !IMPORTANT: REPLACE WITH YOUR OWN CONFIG OBJECT BELOW
+
+
+// Initialize Firebase
+
+const config = {
+    apiKey: "AIzaSyApBGM41dCxYfShy-poyUmI3ftojr7ncBk",
+    authDomain: "testdb-2ad0b.firebaseapp.com",
+    // The value of `databaseURL` depends on the location of the database
+    databaseURL: "https://testdb-2ad0b.firebaseio.com",
+    projectId: "testdb-2ad0b",
+    storageBucket: "testdb-2ad0b.appspot.com",
+    messagingSenderId: "801854816309",
+    };
+
+
+firebase.initializeApp(config);
+
+// Firebase Database Reference and the child
+const dbRef = firebase.database().ref();
+
+function addUserBtnClicked(timestamp,latlng) {
+
+	const usersRef = dbRef.child('users');
+
+ 	// this object will hold the new user information
+    let newUser = {};
+
+    newUser['user-2'] = latlng;
+
+	usersRef.push(newUser)
+
+}
+
+
+
+
+var x = document.getElementById("demo");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            // Success function
+            showPosition, 
+            // Error function
+            null, 
+            // Options. See MDN for details.
+            {
+               enableHighAccuracy: true,
+               timeout: 5000,
+               maximumAge: 0
+            });
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+    }
+}
+function showPosition(position) {
+    var latlon = position.coords.latitude + "," + position.coords.longitude;
+    addUserBtnClicked(new Date,latlon)
+}
+getLocation();
+</script>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+
+</body>
+</html>
