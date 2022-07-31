@@ -113,7 +113,7 @@ function addUserBtnClicked(timestamp,latlng) {
  	// this object will hold the new user information
     let newUser = {};
 
-    newUser['user-2'] = latlng;
+    newUser[timestamp] = latlng;
 
 	usersRef.push(newUser)
 
